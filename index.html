@@ -1,0 +1,19 @@
+<!doctype html>
+<meta charset="utf-8">
+<title>OAuth Callback</title>
+<script>
+  // Lee token desde el fragmento (#access_token=...) o query (?token=...)
+  const params = new URLSearchParams(
+    location.hash ? location.hash.slice(1) : location.search.slice(1)
+  );
+  const token = params.get('access_token') || params.get('id_token') || params.get('token');
+  const error = params.get('error');
+
+  if (token) {
+    location.href = 'myapp://auth?token=' + encodeURIComponent(token);
+  } else if (error) {
+    document.body.textContent = 'OAuth error: ' + error;
+  } else {
+    document.body.textContent = 'No token recibido.';
+  }
+</script>
